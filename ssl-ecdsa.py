@@ -23,9 +23,10 @@ print("""欢迎使用SSL证书生成器！
 在使用前，请确保您的计算机安装了openssl.
 使用的时候，请按住回车键。""")
 num = int(input("请问您打算生成多少ssl证书："))
-bite = int(input("请问您打算生成多少位宽的ssl证书："))
+bite = str(input("请问您打算生成哪种类型的ssl证书\n（例如：prime256v1、secp521r1）："))
 for fx in range(num):
-    os.system("openssl req -newkey rsa:%d -nodes -x509 -keyout ./SSL文件/编号[%d]SSL密钥.key -out ./SSL文件/编号[%d]SSL证书.crt -days 999999" % (bite,fx,fx))
+    os.system("openssl ecparam -genkey -name %s -out ./SSL文件/%d.key" % (bite,fx))
+    os.system("openssl req -new -key ./SSL文件/%d.key -out ./SSL文件/%d.crt -x509 -nodes -days 999999" % (fx,fx))
     print("已生成编号："+str(fx))
 else:
     print("生成完毕。")
